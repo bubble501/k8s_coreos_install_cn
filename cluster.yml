@@ -1,3 +1,5 @@
+---
+  
 - name: install python interpreter to coreos
   hosts: k8s-nodes
   remote_user: core
@@ -96,5 +98,3 @@
   roles:
     - k8s_addon
   tags: k8s_addon
-
- 
