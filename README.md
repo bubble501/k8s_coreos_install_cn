@@ -23,10 +23,9 @@ vagrant virtual boxes.(You can use it to install k8s on bare metal by config the
 4. Download pypy from baidu pan https://pan.baidu.com/s/1qYTlnBm and put it to directory k8_coreos_install_cn
 5. After step 3 and 4, both file images.tar.gz and pypy-5.1.0-linux64.tar.bz2 should be under directory k8_coreos_install_cn
 6. ssh to coreos and scp pypy-5.1.0-linux64.tar.bz2 to /home/core directory.
-7. run ansible-playbook -i hosts cluster.yml .
+7. run ansible-playbook -i hosts cluster.yml
+8. Download kubectl from baidu pan https://pan.baidu.com/s/1hst9J9q and save it to /usr/bin directory.
+9. kubectl get pods --all-namespaces
 8. over.
 
-
-
-https://pan.baidu.com/s/1mi0nmdE images address
-https://pan.baidu.com/s/1qYTlnBm pypy address
+ 
