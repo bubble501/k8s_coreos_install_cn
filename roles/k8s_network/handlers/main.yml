@@ -1,0 +1,26 @@
+- name: reload flanneld
+  systemd:
+    name: 'flanneld'
+    state: started
+    daemon_reload: yes
+  notify: reload flannel-docker-opts
+
+- name: reload flannel-docker-opts
+  systemd:
+    name: 'flannel-docker-opts'
+    state: started
+    daemon_reload: yes
+#   notify: restart flanneld
+#
+# - name: restart flanneld
+#   systemd:
+#     name: 'flanneld'
+#     state: restarted
+#     daemon_reload: yes
+#   notify: restart flannel-docker-opts
+#
+# - name: restart flannel-docker-opts
+#   systemd:
+#     name: 'flannel-docker-opts'
+#     state: restarted
+#     daemon_reload: yes

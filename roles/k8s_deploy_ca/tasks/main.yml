@@ -1,0 +1,8 @@
+# The following two steps make sure that the private registry'ca has been installed.
+- name: add kube registry ca to node
+  copy:
+    src: "ca.pem"
+    dest: "/etc/ssl/certs/kube-registry.pem"
+
+- name: add kube registry ca to node second
+  shell: update-ca-certificates

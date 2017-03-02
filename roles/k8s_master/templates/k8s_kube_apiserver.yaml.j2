@@ -1,0 +1,53 @@
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: kube-apiserver
+    namespace: kube-system
+  spec:
+    hostNetwork: true
+    containers:
+    - name: kube-apiserver
+      image: "{{k8s_hyperkube}}:{{k8s_version}}"
+      command:
+      - /hyperkube
+      - apiserver
+      - --bind-address=0.0.0.0
+      - --etcd-servers={{k8s_etcd_endpoints}}
+      - --allow-privileged=true
+      - --service-cluster-ip-range={{k8s_service_ip_range}}
+      - --secure-port=443
+      - --advertise-address={{k8s_adverstise_ip}}
+      - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
+      - --tls-cert-file=/etc/kubernetes/ssl/{{k8s_ssl_apiserver_pem_name}}
+      - --tls-private-key-file=/etc/kubernetes/ssl/{{k8s_ssl_apiserver_key_pem_name}}
+      - --client-ca-file=/etc/kubernetes/ssl/{{k8s_ssl_ca_pem_key_name}}
+      - --service-account-key-file=/etc/kubernetes/ssl/{{k8s_ssl_apiserver_key_pem_name}}
+      - --runtime-config=extensions/v1beta1=true,extensions/v1beta1/networkpolicies=true
+      livenessProbe:
+        httpGet:
+          host: 127.0.0.1
+          port: 8080
+          path: /healthz
+        initialDelaySeconds: 15
+        timeoutSeconds: 15
+      ports:
+      - containerPort: 443
+        hostPort: 443
+        name: https
+      - containerPort: 8080
+        hostPort: 8080
+        name: local
+      volumeMounts:
+      - mountPath: /etc/kubernetes/ssl
+        name: ssl-certs-kubernetes
+        readOnly: true
+      - mountPath: /etc/ssl/certs
+        name: ssl-certs-host
+        readOnly: true
+    volumes:
+    - hostPath:
+        path: /etc/kubernetes/ssl
+      name: ssl-certs-kubernetes
+    - hostPath:
+        path: /usr/share/ca-certificates
+      name: ssl-certs-host

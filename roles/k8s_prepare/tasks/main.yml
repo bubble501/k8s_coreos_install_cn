@@ -1,0 +1,6 @@
+- name: pre download rkt flannel images
+  shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.7.0 --trust-keys-from-https=true
+- name: pre download rkt flannel images
+  shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.6.2 --trust-keys-from-https=true
+- name: pre download rkt hyperkube images
+  shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/hyperkube:{{k8s_version}} --trust-keys-from-https=true

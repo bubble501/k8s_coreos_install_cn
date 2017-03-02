@@ -1,0 +1,33 @@
+
+k8s_openssl_config:
+  req:
+    req_extensions: 'v3_req'
+    distinguished_name: 'req_distinguished_name'
+  req_distinguished_name:
+  v3_req:
+    basicConstraints: 'CA:FALSE'
+    keyUsage: 'nonRepudiation, digitalSignature, keyEncipherment'
+    subjectAltName: '@alt_names'
+  alt_names:
+    DNS:
+      - kubernetes
+      - kubernetes.default
+      - kubernetes.default.svc
+      - "kubernetes.default.svc.{{k8s_cluster_domain}}"
+      - "*.myfqdn.com"
+    # Do not fulfil IP of master nodes, they'll be automatically generated
+    # from k8s-masters group
+    IP:
+      - "{{k8s_service_ip}}"
+
+k8s_workers_openssl_config:
+  req:
+    req_extensions: 'v3_req'
+    distinguished_name: 'req_distinguished_name'
+  req_distinguished_name:
+  v3_req:
+    basicConstraints: 'CA:FALSE'
+    keyUsage: 'nonRepudiation, digitalSignature, keyEncipherment'
+    subjectAltName: '@alt_names'
+  # Do not fulfil alt_names, it will automatically be generated
+  alt_names:

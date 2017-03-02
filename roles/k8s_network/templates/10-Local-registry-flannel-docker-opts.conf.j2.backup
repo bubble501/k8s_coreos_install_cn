@@ -1,0 +1,4 @@
+[Service]
+Environment=FLANNEL_IMAGE_URL=docker://{{k8s_flannel}}
+Environment=FLANNEL_IMAGE_TAG={{k8s_flannel_version}}
+Environment="RKT_RUN_ARGS=--insecure-options=image --uuid-file-save=/var/lib/coreos/flannel-wrapper2.uuid"

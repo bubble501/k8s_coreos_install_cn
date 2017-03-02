@@ -1,0 +1,27 @@
+[local]
+localhost
+
+[k8s-admin]
+localhost
+
+[k8s-etcds]
+172.17.8.101 pub_ip=172.17.8.101 priv_ip=172.17.8.101
+172.17.8.102 pub_ip=172.17.8.102 priv_ip=172.17.8.102
+172.17.8.103 pub_ip=172.17.8.103 priv_ip=172.17.8.103
+
+
+[k8s-masters]
+172.17.8.101 pub_ip=172.17.8.101 priv_ip=172.17.8.101
+
+[k8s-workers]
+172.17.8.102 pub_ip=172.17.8.102 priv_ip=172.17.8.102
+172.17.8.103 pub_ip=172.17.8.103 priv_ip=172.17.8.103
+
+
+[k8s-nodes:children]
+k8s-masters
+k8s-workers
+
+
+[local:vars]
+ansible_ssh_user=aaron

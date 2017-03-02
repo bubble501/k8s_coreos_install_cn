@@ -1,0 +1,79 @@
+---
+# Network Configuration
+
+
+- name: stop flanneld
+  systemd:
+    name: 'flanneld'
+    state: stopped
+
+- name: stop flannel-docker-opts
+  systemd:
+    name: 'flannel-docker-opts'
+    state: stopped
+
+
+- name: ensure flanneld systemd directory exist
+  file:
+    path: "{{item}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  with_items:
+    - '/etc/flannel'
+    - '/etc/systemd/system/flanneld.service.d'
+    - '/etc/systemd/system/flannel-docker-opts.service.d'
+
+- name: configure systemd flannel options
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - { src: 'flannel_options.env.j2', dest: '/etc/flannel/options.env' }
+    - { src: '40-ExecStartPre-symlink.conf.j2', dest: '/etc/systemd/system/flanneld.service.d/40-ExecStartPre-symlink.conf' }
+    # - { src: '10-Local-registry-flanneld.conf.j2', dest: '/etc/systemd/system/flanneld.service.d/10-Local-registry.conf' }
+    # - { src: '10-Local-registry-flannel-docker-opts.conf.j2', dest: '/etc/systemd/system/flannel-docker-opts.service.d/10-Local-registry.conf' }
+
+  notify: reload flanneld
+
+# - name: add insecure-options=image to /usr/lib/systemd/system/flanneld.service
+#   lineinfile:
+#     dest=/usr/lib/systemd/system/flanneld.service
+#     state=present
+#     regexp='^(.*)RKT_RUN_ARGS=(.*)$'
+#     line='\1RKT_RUN_ARGS=--insecure-options=image \2'
+#     backup=yes
+#     backrefs=yes
+
+
+
+
+- meta: flush_handlers
+
+- name: ensure flanneld is started
+  systemd:
+    name: 'flanneld'
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+# - name: ensure flannel-docker-opts is started
+#   systemd:
+#     name: 'flannel-docker-opts'
+#     state: started
+#     enabled: yes
+#     daemon_reload: yes
+
+- name: wait for flannel interface to enable interface
+  shell: "ls -d1 /sys/class/net/*"
+  register: all_interfaces
+  until: all_interfaces.stdout.find('flannel') != -1
+  retries: 24
+  delay: 5
+  changed_when: false
+
+- meta: flush_handlers

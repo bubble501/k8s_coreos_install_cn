@@ -1,0 +1,43 @@
+# Leave it blank if you're using flannel, otherwize use cni for Calico
+local_registry: 'kube-registry.dev.sumscope.com:5000'
+
+k8s_kublet_network_plugin: ''
+k8s_dashboard_version: '1.5.0'
+
+
+# the master IPs
+k8s_master_host: '172.17.8.101'
+
+k8s_dns_service_ip: '10.3.0.10'
+
+k8s_kubectl_cluster_name: 'default-cluster'
+k8s_service_ip: '10.3.0.1'
+k8s_service_ip_range: '10.3.0.0/24'
+k8s_cluster_domain: 'cluster.local'
+k8s_adverstise_ip: "{{ansible_eth1.ipv4.address}}"
+k8s_etcd_endpoints: "http://{{ groups['k8s-etcds'] | map('extract', hostvars, ['priv_ip']) | join(':2379,http://') }}:2379"
+k8s_version: 'v1.5.1_coreos.0'
+k8s_hyperkube: "{{local_registry}}/coreos/hyperkube"
+k8s_pod_network: '10.2.0.0/16'
+k8s_flannel:  "{{local_registry}}/coreos/flannel"
+k8s_flannel_version: 'v0.6.2'
+k8s_pause_image: "{{local_registry}}/google_containers/pause-amd64:3.0"
+
+
+
+k8s_ssl_local_path: "{{playbook_dir}}/assets/ssl/{{k8s_kubectl_cluster_name}}"
+k8s_ssl_api_server_path: "{{k8s_ssl_local_path}}/api_servers"
+k8s_ssl_workers_path: "{{k8s_ssl_local_path}}/workers"
+k8s_ssl_admin_path: "{{k8s_ssl_local_path}}/admins"
+
+k8s_ssl_bytes_encrypt: 2048
+k8s_ssl_ca_name: 'ca-key.pem'
+k8s_ssl_ca_pem_key_name: 'ca.pem'
+k8s_ssl_valid_days: 10000
+k8s_ssl_ca_pem_subj: '/CN=kube-ca'
+
+k8s_ssl_apiserver_key_pem_name: 'apiserver-key.pem'
+k8s_ssl_apiserver_csr_name: 'apiserver.csr'
+k8s_ssl_apiserver_subj: '/CN=kube-apiserver'
+k8s_ssl_apiserver_pem_name: 'apiserver.pem'
+k8s_ssl_apiserver_days: 10000
