@@ -4,6 +4,7 @@
   gather_facts: False
   roles:
     - defunctzombie.coreos-bootstrap
+  tags: k8s_installpython
 
 - name: prepare rkt images
   hosts: k8s-nodes
@@ -11,6 +12,7 @@
   gather_facts: False
   roles:
     - k8s_prepare
+  tags: k8s_prepare
 
 # This is used to generated certificate on localhost.
 - name:  k8s - generate certificates...
@@ -20,13 +22,13 @@
     - ssl_certs
   tags: gen_cert
 
-- name: k8s - deploy private registry ca...
-  hosts: k8s-nodes
-  become: true
-  gather_facts: False
-  roles:
-    - k8s_deploy_ca
-  tags: k8s_deploy_ca
+# - name: k8s - deploy private registry ca...
+#   hosts: k8s-nodes
+#   become: true
+#   gather_facts: False
+#   roles:
+#     - k8s_deploy_ca
+#   tags: k8s_deploy_ca
 
 - name: k8s - check etcd...
   hosts: k8s-etcds
@@ -95,72 +97,4 @@
     - k8s_addon
   tags: k8s_addon
 
-# - name: k8s - install master...
-#   hosts: k8s-masters
-#   become: true
-#   roles:
-#     - k8s_network
-#     - k8s_docker
-#     - k8s_master
-#     - k8s_kubelet
-#     - k8s_master_verifier
-#   tags: k8s_masters
-
-# - name: k8s - install worker...
-#   hosts: k8s-workers
-#   become: true
-#   roles:
-#     - k8s_network
-#     - k8s_docker
-#     - k8s_worker
-#     - k8s_kubelet
-#   tags: k8s_workers
-#
-# - name: k8s - install admin...
-#   hosts: k8s-admin
-#   gather_facts: False
-#   roles:
-#     - k8s_admin
-#   tags: k8s_admin
-
-# - name: kubernetes docker
-#   hosts: k8s-nodes
-#   become: true
-#   roles:
-#     - k8s_docker
-#   tags: k8s_docker
-#
-# - name: kubernetes master
-#   hosts: k8s-masters
-#   become: true
-#   roles:
-#     - k8s_master
-#   tags: k8s_master_install
-#
-# - name: kubernetes works
-#   hosts: k8s-workers
-#   become: true
-#   roles:
-#     - k8s_worker
-#
-# - name: kubernetes kubelet
-#   hosts: k8s-nodes
-#   become: true
-#   roles:
-#     - k8s_kubelet
-#   tags: k8s_kubelet
-#
-# - name: kubectl install
-#   hosts: k8s-admin
-#   gather_facts: False
-#   roles:
-#     - k8s_admin
-#   tags: k8s_admin
-
-# - name: test python interpreter
-#   hosts: k8s-nodes
-#   gather_facts: False
-#   remote_user: core
-#   become: true
-#   roles:
-#     - dummy
+ 

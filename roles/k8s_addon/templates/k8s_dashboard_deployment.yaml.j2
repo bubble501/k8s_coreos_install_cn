@@ -28,7 +28,7 @@
         containers:
         - name: kubernetes-dashboard
           image: "gcr.io/google_containers/kubernetes-dashboard-amd64:v{{k8s_dashboard_version}}"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               cpu: 100m

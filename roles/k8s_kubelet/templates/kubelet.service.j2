@@ -25,7 +25,6 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --tls-cert-file=/etc/kubernetes/ssl/worker.pem \
   --tls-private-key-file=/etc/kubernetes/ssl/worker-key.pem \
 {% endif %}
-  --pod-infra-container-image={{k8s_pause_image}} \
   --network-plugin-dir=/etc/kubernetes/cni/net.d \
   --network-plugin={{k8s_kublet_network_plugin}} \
   --allow-privileged=true \

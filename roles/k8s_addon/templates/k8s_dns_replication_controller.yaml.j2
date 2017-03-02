@@ -24,6 +24,7 @@
         containers:
         - name: kubedns
           image: gcr.io/google_containers/kubedns-amd64:1.9
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 170Mi
@@ -58,6 +59,7 @@
             protocol: TCP
         - name: dnsmasq
           image: gcr.io/google_containers/kube-dnsmasq-amd64:1.4
+          imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
               path: /healthz-dnsmasq
@@ -81,6 +83,7 @@
             protocol: TCP
         - name: healthz
           image: gcr.io/google_containers/exechealthz-amd64:1.2
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 50Mi

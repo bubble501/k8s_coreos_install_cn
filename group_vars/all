@@ -1,6 +1,6 @@
 # Leave it blank if you're using flannel, otherwize use cni for Calico
-local_registry: 'kube-registry.dev.sumscope.com:5000'
-
+# local_registry: 'kube-registry.dev.sumscope.com:5000'
+local_registry: 'quay.io'
 k8s_kublet_network_plugin: ''
 k8s_dashboard_version: '1.5.0'
 
@@ -21,6 +21,7 @@ k8s_hyperkube: "{{local_registry}}/coreos/hyperkube"
 k8s_pod_network: '10.2.0.0/16'
 k8s_flannel:  "{{local_registry}}/coreos/flannel"
 k8s_flannel_version: 'v0.6.2'
+# not used.
 k8s_pause_image: "{{local_registry}}/google_containers/pause-amd64:3.0"
 
 

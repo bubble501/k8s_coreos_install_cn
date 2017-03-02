@@ -18,7 +18,7 @@
       mode: 0644
   with_items:
       - { src: '40-flannel.conf.j2', dest: '/etc/systemd/system/docker.service.d/40-flannel.conf' }
-      - { src: '50-http-proxy.conf.j2', dest: '/etc/systemd/system/docker.service.d/50-http-proxy.conf' }
+      # - { src: '50-http-proxy.conf.j2', dest: '/etc/systemd/system/docker.service.d/50-http-proxy.conf' }
   notify: restart docker
 
 - meta: flush_handlers

@@ -1,6 +1,43 @@
-- name: pre download rkt flannel images
-  shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.7.0 --trust-keys-from-https=true
-- name: pre download rkt flannel images
-  shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.6.2 --trust-keys-from-https=true
-- name: pre download rkt hyperkube images
-  shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/hyperkube:{{k8s_version}} --trust-keys-from-https=true
+# - name: pre download rkt flannel images
+#   shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.7.0 --trust-keys-from-https=true
+# - name: pre download rkt flannel images
+#   shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.6.2 --trust-keys-from-https=true
+# - name: pre download rkt hyperkube images
+#   shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/hyperkube:{{k8s_version}} --trust-keys-from-https=true
+
+- name: copy rkt and docker images
+  unarchive:
+    src: "{{playbook_dir}}/images.tar.gz"
+    dest: "/home/core"
+
+- name: import docker image hyperkube
+  shell: docker load -i /home/core/images/docker/hyperkubev1.5.1_coreos.0
+
+- name: import docker image pause-amd64
+  shell: docker load -i /home/core/images/docker/pause-amd643.0
+
+- name: import docker image dashboard
+  shell: docker load -i /home/core/images/docker/kubernetes-dashboard-amd64v1.5.0
+
+- name: import docker image kubedns
+  shell: docker load -i /home/core/images/docker/kubedns-amd64.1.9
+
+- name: import docker image kube-dnsmasq
+  shell: docker load -i /home/core/images/docker/kube-dnsmasq-amd641.4
+
+- name: import docker image exechealthz
+  shell: docker load -i /home/core/images/docker/exechealthz-amd641.2
+
+- name: import rkt image hyperkube
+  shell: rkt fetch  /home/core/images/rkt/hyperkubev1.5.1_coreos.0.aci --insecure-options=all
+
+- name: import rkt image flannel 0.6.2
+  shell: rkt fetch  /home/core/images/rkt/flannelv0.6.2.aci --insecure-options=all
+
+- name: import rkt image flannel 0.7.0
+  shell: rkt fetch  /home/core/images/rkt/flannelv0.7.0.aci --insecure-options=all
+
+- name: delete images files
+  file:
+    state: absent
+    path: /home/coreos/images
