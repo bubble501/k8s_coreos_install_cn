@@ -24,4 +24,7 @@ k8s-workers
 
 
 [local:vars]
-ansible_ssh_user=aaron
+ansible_connection=local
+
+[k8s-workers:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

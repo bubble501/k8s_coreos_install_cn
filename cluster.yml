@@ -1,11 +1,10 @@
 ---
-  
 - name: install python interpreter to coreos
   hosts: k8s-nodes
   remote_user: core
   gather_facts: False
   roles:
-    - defunctzombie.coreos-bootstrap
+    - aaron.coreos-bootstrap
   tags: k8s_installpython
 
 - name: prepare rkt images

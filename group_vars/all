@@ -1,5 +1,6 @@
 # Leave it blank if you're using flannel, otherwize use cni for Calico
 # local_registry: 'kube-registry.dev.sumscope.com:5000'
+localhost_ip: "172.16.73.121"
 local_registry: 'quay.io'
 k8s_kublet_network_plugin: ''
 k8s_dashboard_version: '1.5.0'
