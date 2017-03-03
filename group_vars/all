@@ -1,6 +1,5 @@
 # Leave it blank if you're using flannel, otherwize use cni for Calico
 # local_registry: 'kube-registry.dev.sumscope.com:5000'
-localhost_ip: "172.16.73.121"
 local_registry: 'quay.io'
 k8s_kublet_network_plugin: ''
 k8s_dashboard_version: '1.5.0'
@@ -43,3 +42,14 @@ k8s_ssl_apiserver_csr_name: 'apiserver.csr'
 k8s_ssl_apiserver_subj: '/CN=kube-apiserver'
 k8s_ssl_apiserver_pem_name: 'apiserver.pem'
 k8s_ssl_apiserver_days: 10000
+
+k8s_docker_hyperkubev1_5_1: 'quay.io/coreos/hyperkube|v1.5.1_coreos.0'
+k8s_docker_kubernetes_dashboard_amd64v1_5_0: 'gcr.io/google_containers/kubernetes-dashboard-amd64|v1.5.0'
+k8s_docker_kubedns_amd64_1_9: 'gcr.io/google_containers/kubedns-amd64|1.9'
+k8s_docker_kube_dnsmasq_amd64_1_4: 'gcr.io/google_containers/kube-dnsmasq-amd64|1.4'
+k8s_docker_exechealthz_amd64_1_2: 'gcr.io/google_containers/exechealthz-amd64|1.2'
+k8s_docker_pause_amd64_3_0: 'gcr.io/google_containers/pause-amd64|3.0'
+
+k8s_rkt_hyperkube_v1_5_1_coreos_0: 'quay.io/coreos/hyperkube:v1.5.1_coreos.0'
+k8s_rkt_flannel_v0_6_2: 'quay.io/coreos/flannel:v0.6.2'
+k8s_rkt_flannel_v0_7_0: 'quay.io/coreos/flannel:v0.7.0'

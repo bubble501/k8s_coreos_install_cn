@@ -10,32 +10,50 @@
     src: "{{playbook_dir}}/images.tar.gz"
     dest: "/home/core"
 
+- name: get docker images
+  shell: docker images
+  register: docker_images
+
+- name: get rkt images
+  shell: rkt image list
+  register: rkt_images
+
+
 - name: import docker image hyperkube
   shell: docker load -i /home/core/images/docker/hyperkubev1.5.1_coreos.0
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_hyperkubev1_5_1 }}") == -1'
 
 - name: import docker image pause-amd64
   shell: docker load -i /home/core/images/docker/pause-amd643.0
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_pause_amd64_3_0 }}") == -1'
 
 - name: import docker image dashboard
   shell: docker load -i /home/core/images/docker/kubernetes-dashboard-amd64v1.5.0
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kubernetes_dashboard_amd64v1_5_0 }}") == -1'
 
 - name: import docker image kubedns
   shell: docker load -i /home/core/images/docker/kubedns-amd64.1.9
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kubedns_amd64_1_9 }}") == -1'
 
 - name: import docker image kube-dnsmasq
   shell: docker load -i /home/core/images/docker/kube-dnsmasq-amd641.4
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kube_dnsmasq_amd64_1_4 }}") == -1'
 
 - name: import docker image exechealthz
   shell: docker load -i /home/core/images/docker/exechealthz-amd641.2
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_exechealthz_amd64_1_2 }}") == -1'
 
 - name: import rkt image hyperkube
   shell: rkt fetch  /home/core/images/rkt/hyperkubev1.5.1_coreos.0.aci --insecure-options=all
+  when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_hyperkube_v1_5_1_coreos_0 }}") == -1'
 
 - name: import rkt image flannel 0.6.2
   shell: rkt fetch  /home/core/images/rkt/flannelv0.6.2.aci --insecure-options=all
+  when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_6_2 }}") == -1'
 
 - name: import rkt image flannel 0.7.0
   shell: rkt fetch  /home/core/images/rkt/flannelv0.7.0.aci --insecure-options=all
+  when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_7_0 }}") == -1'
 
 - name: delete images files
   file:

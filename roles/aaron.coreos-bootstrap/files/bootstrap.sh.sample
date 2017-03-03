@@ -18,7 +18,7 @@ else
   # We use the the http server which has been setup on the control machine. Please
   # replace 172.16.73.121 will you own control machine's IP address.
   # wget -O - https://bitbucket.org/pypy/pypy/downloads/pypy-$PYPY_VERSION-linux64.tar.bz2 |tar -xjf -
-  wget -O - http://172.16.73.121:8000/pypy-$PYPY_VERSION-linux64.tar.bz2 |tar -xjf -
+  wget -O - http://USER_IP:8000/pypy-$PYPY_VERSION-linux64.tar.bz2 |tar -xjf -
 fi
 
 mv -n pypy-$PYPY_VERSION-linux64 pypy
