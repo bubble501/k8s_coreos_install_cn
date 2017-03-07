@@ -1,0 +1,56 @@
+# - name: pre download rkt flannel images
+#   shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.7.0 --trust-keys-from-https=true
+# - name: pre download rkt flannel images
+#   shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/flannel:v0.6.2 --trust-keys-from-https=true
+# - name: pre download rkt hyperkube images
+#   shell: http_proxy=http://172.16.66.180:8123 https_proxy=http://172.16.66.180:8123 rkt fetch quay.io/coreos/hyperkube:{{k8s_version}} --trust-keys-from-https=true
+#
+- name: get docker images
+  shell: docker images
+  register: docker_images
+
+- name: get rkt images
+  shell: rkt image list
+  register: rkt_images
+
+
+- name: import docker image hyperkube
+  shell: docker pull {{k8s_hyperkube}}:{{k8s_version}}
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_hyperkubev1_5_1 }}") == -1'
+
+- name: import docker image pause-amd64
+  shell: docker pull {{k8s_pause_image}}:{{k8s_pause_version}}
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_pause_amd64_3_0 }}") == -1'
+
+- name: import docker image dashboard
+  shell: docker pull {{k8s_dashboard}}:{{k8s_dashboard_version}}
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kubernetes_dashboard_amd64v1_5_0 }}") == -1'
+
+- name: import docker image kubedns
+  shell: docker pull {{k8s_kubedns_amd64}}:{{k8s_kubedns_amd64_version}}
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kubedns_amd64_1_9 }}") == -1'
+
+- name: import docker image kube-dnsmasq
+  shell: docker pull {{k8s_dnsmasq_amd64}}:{{k8s_dnsmasq_amd64_version}}
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kube_dnsmasq_amd64_1_4 }}") == -1'
+
+- name: import docker image exechealthz
+  shell: docker pull {{k8s_exechealthz_amd64}}:{{k8s_exechealthz_amd64_version}}
+  when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_exechealthz_amd64_1_2 }}") == -1'
+
+- name: import rkt image hyperkube
+  shell: rkt fetch docker://{{k8s_hyperkube}}:{{k8s_version}} --trust-keys-from-https=true --insecure-options=all
+  when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_hyperkube_v1_5_1_coreos_0 }}") == -1'
+#
+# - name: import rkt image flannel 0.6.2
+#   shell: rkt fetch  /home/core/images/rkt/flannelv0.6.2.aci --insecure-options=all
+# #   when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_6_2 }}") == -1'
+#
+- name: import rkt image flannel 0.7.0
+  shell: rkt fetch docker://{{k8s_flannel}}:{{k8s_flannel_version}} --trust-keys-from-https=true --insecure-options=all
+  when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_7_0 }}") == -1'
+
+# - name: delete images files
+#   file:
+#     state: absent
+#     path: /home/coreos/images

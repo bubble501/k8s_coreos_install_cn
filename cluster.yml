@@ -7,13 +7,21 @@
     - aaron.coreos-bootstrap
   tags: k8s_installpython
 
+- name: k8s - deploy private registry ca...
+  hosts: k8s-nodes
+  become: true
+  gather_facts: False
+  roles:
+    - k8s_deploy_ca
+  tags: k8s_deploy_ca
+
 - name: prepare rkt images
   hosts: k8s-nodes
   become: true
   gather_facts: False
   roles:
-    - k8s_prepare
-  tags: k8s_prepare
+    - k8s_prepare_aliyun
+  tags: k8s_prepare_aliyun
 
 # This is used to generated certificate on localhost.
 - name:  k8s - generate certificates...
@@ -22,14 +30,6 @@
   roles:
     - ssl_certs
   tags: gen_cert
-
-# - name: k8s - deploy private registry ca...
-#   hosts: k8s-nodes
-#   become: true
-#   gather_facts: False
-#   roles:
-#     - k8s_deploy_ca
-#   tags: k8s_deploy_ca
 
 - name: k8s - check etcd...
   hosts: k8s-etcds

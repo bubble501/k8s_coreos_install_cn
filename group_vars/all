@@ -1,9 +1,22 @@
 # Leave it blank if you're using flannel, otherwize use cni for Calico
-# local_registry: 'kube-registry.dev.sumscope.com:5000'
-local_registry: 'quay.io'
 k8s_kublet_network_plugin: ''
-k8s_dashboard_version: '1.5.0'
 
+http_proxy: 'http://172.16.66.180:8123'
+http_proxy_escape: 'localhost,127.0.0.1,172.16.66.180,kube-registry.dev.sumscope.com'
+
+# aliyun
+local_registry: 'registry.cn-hangzhou.aliyuncs.com/bubble603'
+k8s_quay_io_registry: '{{local_registry}}'
+k8s_gcr_io_registry: '{{local_registry}}'
+
+# kube-registry
+# local_registry: 'kube-registry.dev.sumscope.com:5000'
+# k8s_quay_io_registry: '{{local_registry}}/coreos'
+# k8s_gcr_io_registry: '{{local_registry}}/google_containers'
+
+# default
+# k8s_quay_io_registry: 'quay.io/coreos'
+# k8s_gcr_io_registry: 'gcr.io/google_containers'
 
 # the master IPs
 k8s_master_host: '172.17.8.101'
@@ -17,14 +30,20 @@ k8s_cluster_domain: 'cluster.local'
 k8s_adverstise_ip: "{{ansible_eth1.ipv4.address}}"
 k8s_etcd_endpoints: "http://{{ groups['k8s-etcds'] | map('extract', hostvars, ['priv_ip']) | join(':2379,http://') }}:2379"
 k8s_version: 'v1.5.1_coreos.0'
-k8s_hyperkube: "{{local_registry}}/coreos/hyperkube"
+k8s_hyperkube: "{{k8s_quay_io_registry}}/hyperkube"
 k8s_pod_network: '10.2.0.0/16'
-k8s_flannel:  "{{local_registry}}/coreos/flannel"
-k8s_flannel_version: 'v0.6.2'
-# not used.
-k8s_pause_image: "{{local_registry}}/google_containers/pause-amd64:3.0"
-
-
+k8s_dashboard: "{{k8s_gcr_io_registry}}/kubernetes-dashboard-amd64"
+k8s_dashboard_version: 'v1.5.0'
+k8s_pause_image: "{{k8s_gcr_io_registry}}/pause-amd64"
+k8s_pause_version: '3.0'
+k8s_kubedns_amd64: "{{k8s_gcr_io_registry}}/kubedns-amd64"
+k8s_kubedns_amd64_version: '1.9'
+k8s_dnsmasq_amd64: "{{k8s_gcr_io_registry}}/kube-dnsmasq-amd64"
+k8s_dnsmasq_amd64_version: '1.4'
+k8s_exechealthz_amd64: "{{k8s_gcr_io_registry}}/exechealthz-amd64"
+k8s_exechealthz_amd64_version: "1.2"
+k8s_flannel: "{{k8s_quay_io_registry}}/flannel"
+k8s_flannel_version: 'v0.7.0'
 
 k8s_ssl_local_path: "{{playbook_dir}}/assets/ssl/{{k8s_kubectl_cluster_name}}"
 k8s_ssl_api_server_path: "{{k8s_ssl_local_path}}/api_servers"
@@ -43,13 +62,12 @@ k8s_ssl_apiserver_subj: '/CN=kube-apiserver'
 k8s_ssl_apiserver_pem_name: 'apiserver.pem'
 k8s_ssl_apiserver_days: 10000
 
-k8s_docker_hyperkubev1_5_1: 'quay.io/coreos/hyperkube|v1.5.1_coreos.0'
-k8s_docker_kubernetes_dashboard_amd64v1_5_0: 'gcr.io/google_containers/kubernetes-dashboard-amd64|v1.5.0'
-k8s_docker_kubedns_amd64_1_9: 'gcr.io/google_containers/kubedns-amd64|1.9'
-k8s_docker_kube_dnsmasq_amd64_1_4: 'gcr.io/google_containers/kube-dnsmasq-amd64|1.4'
-k8s_docker_exechealthz_amd64_1_2: 'gcr.io/google_containers/exechealthz-amd64|1.2'
-k8s_docker_pause_amd64_3_0: 'gcr.io/google_containers/pause-amd64|3.0'
+k8s_docker_hyperkubev1_5_1: '{{k8s_hyperkube}}|{{k8s_version}}'
+k8s_docker_kubernetes_dashboard_amd64v1_5_0: '{{k8s_dashboard}}|{{k8s_dashboard_version}}'
+k8s_docker_kubedns_amd64_1_9: '{{k8s_kubedns_amd64}}|{{k8s_kubedns_amd64_version}}'
+k8s_docker_kube_dnsmasq_amd64_1_4: '{{k8s_dnsmasq_amd64}}|{{k8s_dnsmasq_amd64_version}}'
+k8s_docker_exechealthz_amd64_1_2: '{{k8s_exechealthz_amd64}}|{{k8s_exechealthz_amd64_version}}'
+k8s_docker_pause_amd64_3_0: '{{k8s_pause_image}}|{{k8s_pause_version}}'
 
-k8s_rkt_hyperkube_v1_5_1_coreos_0: 'quay.io/coreos/hyperkube:v1.5.1_coreos.0'
-k8s_rkt_flannel_v0_6_2: 'quay.io/coreos/flannel:v0.6.2'
-k8s_rkt_flannel_v0_7_0: 'quay.io/coreos/flannel:v0.7.0'
+k8s_rkt_hyperkube_v1_5_1_coreos_0: '{{k8s_hyperkube}}|{k8s_version}}'
+k8s_rkt_flannel_v0_7_0: '{{k8s_flannel}}|{{k8s_flannel_version}}'

@@ -1,4 +1,4 @@
-echo "###make bootstrap.sh file"
+echo "###create bootstrap.sh file"
 userIP=$1
 cp roles/aaron.coreos-bootstrap/files/bootstrap.sh.sample roles/aaron.coreos-bootstrap/files/bootstrap.sh
 sed -i "s/USER_IP/${userIP}/g" `grep USER_IP -rl roles/aaron.coreos-bootstrap/files/bootstrap.sh`

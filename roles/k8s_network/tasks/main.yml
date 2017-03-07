@@ -35,8 +35,8 @@
   with_items:
     - { src: 'flannel_options.env.j2', dest: '/etc/flannel/options.env' }
     - { src: '40-ExecStartPre-symlink.conf.j2', dest: '/etc/systemd/system/flanneld.service.d/40-ExecStartPre-symlink.conf' }
-    # - { src: '10-Local-registry-flanneld.conf.j2', dest: '/etc/systemd/system/flanneld.service.d/10-Local-registry.conf' }
-    # - { src: '10-Local-registry-flannel-docker-opts.conf.j2', dest: '/etc/systemd/system/flannel-docker-opts.service.d/10-Local-registry.conf' }
+    - { src: '10-Local-registry-flanneld.conf.j2', dest: '/etc/systemd/system/flanneld.service.d/10-Local-registry.conf' }
+    - { src: '10-Local-registry-flannel-docker-opts.conf.j2', dest: '/etc/systemd/system/flannel-docker-opts.service.d/10-Local-registry.conf' }
 
   notify: reload flanneld
 

@@ -23,7 +23,7 @@
       spec:
         containers:
         - name: kubedns
-          image: gcr.io/google_containers/kubedns-amd64:1.9
+          image: {{k8s_kubedns_amd64}}:{{k8s_kubedns_amd64_version}}
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -58,7 +58,7 @@
             name: dns-tcp-local
             protocol: TCP
         - name: dnsmasq
-          image: gcr.io/google_containers/kube-dnsmasq-amd64:1.4
+          image: {{k8s_dnsmasq_amd64}}:{{k8s_dnsmasq_amd64_version}}
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -82,7 +82,7 @@
             name: dns-tcp
             protocol: TCP
         - name: healthz
-          image: gcr.io/google_containers/exechealthz-amd64:1.2
+          image: {{k8s_exechealthz_amd64}}:{{k8s_exechealthz_amd64_version}}
           imagePullPolicy: IfNotPresent
           resources:
             limits:

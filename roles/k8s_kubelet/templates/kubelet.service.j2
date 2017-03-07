@@ -3,6 +3,7 @@ ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
 ExecStartPre=/usr/bin/mkdir -p /var/log/containers
 
 Environment=KUBELET_IMAGE_TAG={{k8s_version}}
+Environment=KUBELET_IMAGE_URL=docker://{{k8s_hyperkube}}
 Environment="RKT_OPTS=--insecure-options=image --volume var-log,kind=host,source=/var/log \
   --mount volume=var-log,target=/var/log \
   --volume dns,kind=host,source=/etc/resolv.conf \
@@ -30,7 +31,8 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --allow-privileged=true \
   --hostname-override={{k8s_adverstise_ip}} \
   --cluster-dns={{k8s_dns_service_ip}} \
-  --cluster-domain={{k8s_cluster_domain}}
+  --cluster-domain={{k8s_cluster_domain}} \
+  --pod-infra-container-image={{k8s_pause_image}}:{{k8s_pause_version}}
 Restart=always
 RestartSec=10
 [Install]
