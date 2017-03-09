@@ -14,31 +14,31 @@
   register: rkt_images
 
 
-- name: import docker image hyperkube
+- name: import docker image hyperkube from {{k8s_hyperkube}}:{{k8s_version}}
   shell: docker pull {{k8s_hyperkube}}:{{k8s_version}}
   when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_hyperkubev1_5_1 }}") == -1'
 
-- name: import docker image pause-amd64
+- name: import docker image pause-amd64 from {{k8s_pause_image}}:{{k8s_pause_version}}
   shell: docker pull {{k8s_pause_image}}:{{k8s_pause_version}}
   when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_pause_amd64_3_0 }}") == -1'
 
-- name: import docker image dashboard
+- name: import docker image dashboard from {{k8s_dashboard}}:{{k8s_dashboard_version}}
   shell: docker pull {{k8s_dashboard}}:{{k8s_dashboard_version}}
   when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kubernetes_dashboard_amd64v1_5_0 }}") == -1'
 
-- name: import docker image kubedns
+- name: import docker image kubedns from {{k8s_kubedns_amd64}}:{{k8s_kubedns_amd64_version}}
   shell: docker pull {{k8s_kubedns_amd64}}:{{k8s_kubedns_amd64_version}}
   when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kubedns_amd64_1_9 }}") == -1'
 
-- name: import docker image kube-dnsmasq
+- name: import docker image kube-dnsmasq from {{k8s_dnsmasq_amd64}}:{{k8s_dnsmasq_amd64_version}}
   shell: docker pull {{k8s_dnsmasq_amd64}}:{{k8s_dnsmasq_amd64_version}}
   when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_kube_dnsmasq_amd64_1_4 }}") == -1'
 
-- name: import docker image exechealthz
+- name: import docker image exechealthz from {{k8s_exechealthz_amd64}}:{{k8s_exechealthz_amd64_version}}
   shell: docker pull {{k8s_exechealthz_amd64}}:{{k8s_exechealthz_amd64_version}}
   when: '"|".join(docker_images.stdout.split()).find("{{ k8s_docker_exechealthz_amd64_1_2 }}") == -1'
 
-- name: import rkt image hyperkube
+- name: import rkt image hyperkube from {{k8s_hyperkube}}:{{k8s_version}}
   shell: rkt fetch docker://{{k8s_hyperkube}}:{{k8s_version}} --trust-keys-from-https=true --insecure-options=all
   when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_hyperkube_v1_5_1_coreos_0 }}") == -1'
 #
@@ -46,11 +46,6 @@
 #   shell: rkt fetch  /home/core/images/rkt/flannelv0.6.2.aci --insecure-options=all
 # #   when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_6_2 }}") == -1'
 #
-- name: import rkt image flannel 0.7.0
+- name: import rkt image flannel 0.7.0 from {{k8s_flannel}}:{{k8s_flannel_version}}
   shell: rkt fetch docker://{{k8s_flannel}}:{{k8s_flannel_version}} --trust-keys-from-https=true --insecure-options=all
   when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_7_0 }}") == -1'
-
-# - name: delete images files
-#   file:
-#     state: absent
-#     path: /home/coreos/images

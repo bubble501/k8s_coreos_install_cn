@@ -20,8 +20,8 @@
   become: true
   gather_facts: False
   roles:
-    - k8s_prepare_aliyun
-  tags: k8s_prepare_aliyun
+    - "{{ prepare }}"
+  tags: "{{ prepare }}"
 
 # This is used to generated certificate on localhost.
 - name:  k8s - generate certificates...

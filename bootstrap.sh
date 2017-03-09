@@ -1,5 +1,6 @@
 echo "###create bootstrap.sh file"
 userIP=$1
+isCopy=$2
 cp roles/aaron.coreos-bootstrap/files/bootstrap.sh.sample roles/aaron.coreos-bootstrap/files/bootstrap.sh
 sed -i "s/USER_IP/${userIP}/g" `grep USER_IP -rl roles/aaron.coreos-bootstrap/files/bootstrap.sh`
 
@@ -21,5 +22,10 @@ vagrant up
 
 cd ..
 sleep  10
-echo "### run ansible-playbook -i hosts cluster.yml..."
-ansible-playbook -i hosts cluster.yml
+if [ ! -z ${isCopy} ] && [ ${isCopy} == "copy" ]; then
+    echo "### run ansible-playbook -i hosts cluster.yml..."
+    ansible-playbook -i hosts cluster.yml --extra-vars "prepare=k8s_prepare"
+else
+    echo "### run ansible-playbook -i hosts cluster_copy.yml..."
+    ansible-playbook -i hosts cluster.yml --extra-vars "prepare=k8s_prepare_registry_cn"
+fi

@@ -47,9 +47,9 @@
   shell: rkt fetch  /home/core/images/rkt/hyperkubev1.5.1_coreos.0.aci --insecure-options=all
   when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_hyperkube_v1_5_1_coreos_0 }}") == -1'
 
-- name: import rkt image flannel 0.6.2
-  shell: rkt fetch  /home/core/images/rkt/flannelv0.6.2.aci --insecure-options=all
-  when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_6_2 }}") == -1'
+# - name: import rkt image flannel 0.6.2
+#   shell: rkt fetch  /home/core/images/rkt/flannelv0.6.2.aci --insecure-options=all
+#   when: '"|".join(rkt_images.stdout.split()).find("{{ k8s_rkt_flannel_v0_6_2 }}") == -1'
 
 - name: import rkt image flannel 0.7.0
   shell: rkt fetch  /home/core/images/rkt/flannelv0.7.0.aci --insecure-options=all
