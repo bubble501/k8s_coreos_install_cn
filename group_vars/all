@@ -6,13 +6,13 @@ http_proxy_escape: 'localhost,127.0.0.1,172.16.66.180,kube-registry.dev.sumscope
 
 # aliyun
 # local_registry: 'registry.cn-hangzhou.aliyuncs.com/bubble603'
-# k8s_quay_io_registry: '{{local_registry}}'
-# k8s_gcr_io_registry: '{{local_registry}}'
+k8s_quay_io_registry: '{{local_registry}}'
+k8s_gcr_io_registry: '{{local_registry}}'
 
 # kube-registry
 local_registry: 'kube-registry.dev.sumscope.com:5000'
-k8s_quay_io_registry: '{{local_registry}}/coreos'
-k8s_gcr_io_registry: '{{local_registry}}/google_containers'
+# k8s_quay_io_registry: '{{local_registry}}/coreos'
+# k8s_gcr_io_registry: '{{local_registry}}/google_containers'
 
 # default
 # k8s_quay_io_registry: 'quay.io/coreos'
