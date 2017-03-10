@@ -12,17 +12,14 @@ k8s_coreos_install_cn的主要目的是帮助中国kubernetes爱好者快速无�
 # 安装
 ## 使用vagrant快速安装
 
-## 安装到物理机
 
-
-
-# 快速安装
-
-1. git clone http://
+1. `git clone https://github.com/bubble501/k8s_coreos_install_cn.git`
 2. 从百度盘我的[share](http://pan.baidu.com/s/1hsbsWIS) 下载box.tar.gz,pypy-5.1.0-linux64.tar.bz2, images.tar.gz到k8s_coreos_install_cn目录下并将box.tar.gz解压（box.tar.gz需要解压，imges.tar.gz不需要解压）。如果你是linux系统，请从上面百度共享目录中linux子目录下的kubeclt到/usr/bin目录下，如果你是mac,从mac子目录下下载kubectl到/usr/bin目录下。
 3. 通过系统自带的安装系统安装vagrant, virtualbox和pip, 如果是centos(fedora),请 `yum -y install vagrant virtualbox python-pip`; 如果是ubuntu 请 `sudo apt-get install vagrant virtualbox  python-pip `。 如果是macos, 请  `brew install vagrant virtualbox python `.
 4.  `pip install ansible dnspython `.
 5. 另开一个terminal,cd到k8s_coreos_install_cn目录， 运行  `python -m SimpleHTTPServer `.（此步骤是为了提供pypy-5.1.0-linux64.bar.bz2以及coreos box文件的下载服务。
-6. 运行 `./bootstrap.sh <youlocalIP> ` 请将youlocalIP替换成你的本机IP地址。
+6. 运行 `./bootstrap.sh <youlocalIP> copy` 请将youlocalIP替换成你的本机IP地址。
 7. 等待上一步脚本运行完毕，在本机运行 `kubectl get nodes `验证安装是否成功。
-8. 在本机运行 `kubectl proxy `,用浏览器打开http://localhost:8001/ui.
+8. 在本机运行 `kubectl proxy `,用浏览器打开http://localhost:8001/ui
+
+在安装过程中如果遇到什么问题或者对k8s, docker, coreos等感兴趣，也欢迎加入k8s_cn(216249408)QQ群。
