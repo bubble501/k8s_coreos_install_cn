@@ -20,8 +20,8 @@
   become: true
   gather_facts: False
   roles:
-    - "{{ prepare }}"
-  tags: "{{ prepare }}"
+    - "{{ prepare | default('k8s_prepare_registry_cn') }}"
+  tags: "{{ prepare | default('k8s_prepare_registry_cn') }}"
 
 # This is used to generated certificate on localhost.
 - name:  k8s - generate certificates...

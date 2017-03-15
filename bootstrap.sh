@@ -1,6 +1,10 @@
 echo "###create bootstrap.sh file"
 userIP=$1
 isCopy=$2
+if [ -z ${userIP} ]; then
+  userIP=172.16.73.115
+fi
+rm -rf roles/aaron.coreos-bootstrap/files/bootstrap.sh
 cp roles/aaron.coreos-bootstrap/files/bootstrap.sh.sample roles/aaron.coreos-bootstrap/files/bootstrap.sh
 sed -i "s/USER_IP/${userIP}/g" `grep USER_IP -rl roles/aaron.coreos-bootstrap/files/bootstrap.sh`
 
